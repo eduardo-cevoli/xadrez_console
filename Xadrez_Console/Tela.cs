@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Xml.Serialization;
 using tabuleiro;
+using xadrez;
 
 namespace Xadrez_Console
 {
@@ -27,7 +27,15 @@ namespace Xadrez_Console
                 }
                 Console.WriteLine();
             }
-            Console.WriteLine("  a b c d e f g h");
+
+            //Impressao Letras Colunas
+            Console.Write("  ");
+            char ch = 'a';
+            for (int i = 0; i < tab.Colunas; i++)
+            {
+                Console.Write((char)(ch + i) + " ");
+            }
+            Console.WriteLine();
         }
         public static void ImprimirPeca(Peca peca)
         {
@@ -42,6 +50,14 @@ namespace Xadrez_Console
                 Console.Write(peca);
                 Console.ForegroundColor = aux;
             }
+        }
+        public static PosicaoXadrez LerPosicaoXadrez()
+        {
+            string s = Console.ReadLine().ToLower();
+            char coluna = s[0];
+            //Forçando a ser uma string
+            int linha = int.Parse(s[1]+ "");
+            return new PosicaoXadrez(coluna, linha);
         }
     }
 }

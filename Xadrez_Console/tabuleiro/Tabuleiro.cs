@@ -33,6 +33,19 @@ namespace tabuleiro
             Pecas[pos.Linha, pos.Coluna] = p;
             p.Posicao = pos;
         }
+        public Peca RetirarPeca(Posicao pos)
+        {
+            //Verifica se possui alguma peça na posicao.
+            if (!ExistePeca(pos))
+            {
+                return null;
+            }
+
+            Peca aux = Peca(pos);
+            aux.Posicao = null;
+            Pecas[pos.Linha, pos.Coluna] = null;
+            return aux;
+        }
         public bool ExistePeca(Posicao pos)
         {
             ValidarPosição(pos);
