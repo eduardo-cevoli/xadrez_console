@@ -8,13 +8,45 @@ namespace Xadrez_Console
 {
     class Tela
     {
+
+        public static void ImprimirPartida(PartidaDeXadrez partida)
+        {
+            ImprimirTabuleiro(partida.Tabuleiro);
+            Console.WriteLine();
+            ImprimirPecasCapturadas(partida);
+            Console.WriteLine();
+            Console.WriteLine("Turno: " + partida.Turno);
+            Console.WriteLine("Aguardando jogada: " + partida.JogadorAtual);
+        }
+        public static void ImprimirPecasCapturadas(PartidaDeXadrez partida)
+        {
+            Console.WriteLine("Pecas capturadas: ");
+            Console.Write("Brancas: ");
+            ImprimirConjunto(partida.PecasCapturadas(Cor.Branca));
+            Console.WriteLine();
+            Console.Write("Pretas: ");
+            ConsoleColor aux = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            ImprimirConjunto(partida.PecasCapturadas(Cor.Preta));
+            Console.WriteLine();
+            Console.ForegroundColor = aux;
+        }
+        public static void ImprimirConjunto(HashSet<Peca> conjuto)
+        {
+            Console.Write("[");
+            foreach (Peca x in conjuto)
+            {
+                Console.Write(x + "");
+            }
+            Console.Write("]");
+        }
         public static void ImprimirTabuleiro(Tabuleiro tab)
         {
             for (int i = 0; i < tab.Linhas; i++)
             {
                 //Imprimir numeros das linhas
                 Console.Write(8 - i + " ");
-               
+
                 for (int j = 0; j < tab.Colunas; j++)
                 {
                     Tela.ImprimirPeca(tab.Peca(i, j));
@@ -43,7 +75,7 @@ namespace Xadrez_Console
 
                 for (int j = 0; j < tab.Colunas; j++)
                 {
-                    if (posPossiveis[i,j])
+                    if (posPossiveis[i, j])
                     {
                         Console.BackgroundColor = fundoAlterado;
                     }
@@ -87,14 +119,14 @@ namespace Xadrez_Console
                 }
                 Console.Write(" ");
             }
-            }
-            public static PosicaoXadrez LerPosicaoXadrez()
-            {
-                string s = Console.ReadLine().ToLower();
-                char coluna = s[0];
-                //Forçando a ser uma string
-                int linha = int.Parse(s[1] + "");
-                return new PosicaoXadrez(coluna, linha);
-            }
+        }
+        public static PosicaoXadrez LerPosicaoXadrez()
+        {
+            string s = Console.ReadLine().ToLower();
+            char coluna = s[0];
+            //Forçando a ser uma string
+            int linha = int.Parse(s[1] + "");
+            return new PosicaoXadrez(coluna, linha);
         }
     }
+}
