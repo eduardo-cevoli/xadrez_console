@@ -51,20 +51,20 @@ namespace tabuleiro
             ValidarPosição(pos);
             return Peca(pos) != null;
         }
-        public bool PosicaoValida(Posicao pos)
-        {
-            if (pos.Linha <0 || pos.Linha>=Linhas || pos.Coluna<0 || pos.Coluna>=Colunas)
-            {
-                return false;
-            }
-            return true;
-        }
         public void ValidarPosição(Posicao pos)
         {
             if (!PosicaoValida(pos))
             {
                 throw new TabuleiroException("Posição inválida!");
             }
+        }
+        public bool PosicaoValida(Posicao pos)
+        {
+            if (pos.Linha < 0 || pos.Linha >= Linhas || pos.Coluna < 0 || pos.Coluna >= Colunas)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
