@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using tabuleiro;
 
@@ -11,6 +12,8 @@ namespace xadrez
         public int Turno { get; private set; }
         public Cor JogadorAtual { get; private set; }
         public bool Terminada { get; private set; }
+        public Posicao XequePosRei { get; private set; }
+        public Peca XequeAtacante { get; private set; }
         private HashSet<Peca> Pecas;
         private HashSet<Peca> Capturadas;
 
@@ -22,6 +25,8 @@ namespace xadrez
             Terminada = false;
             Pecas = new HashSet<Peca>();
             Capturadas = new HashSet<Peca>();
+            XequePosRei = null;
+            XequePosRei = null;
             ColocarPecas();
         }
         public void ExecutaMovimento(Posicao origem, Posicao destino)
@@ -104,6 +109,61 @@ namespace xadrez
             aux.ExceptWith(PecasCapturadas(cor));
             return aux;
         }
+        private Cor CorAdversaria()
+        {
+            Cor aux = JogadorAtual;
+            if (aux == Cor.Branca)
+            {
+                aux = Cor.Preta;
+            }
+            else
+            {
+                aux = Cor.Branca;
+            }
+            return aux;
+        }
+        public bool Xeque()
+        {
+            if (Turno < 2)
+            {
+                return false;
+            }
+            
+            HashSet<Peca> pecasAdver = PecasEmJogo(CorAdversaria());
+            HashSet<Peca> pecasJogAtual = PecasEmJogo(JogadorAtual);
+            Posicao posRei = PosicaoRei(pecasJogAtual);
+            bool xeque = false;
+            
+            XequePosRei = null;
+            XequeAtacante = null;
+            
+            foreach (Peca p in pecasAdver)
+            {
+                bool[,] matMovimentos = p.MovimentosPossiveis();
+                if (matMovimentos[posRei.Linha, posRei.Coluna] == true)
+                {
+                    xeque = true;
+                    XequePosRei = posRei;
+                    XequeAtacante = p;
+                    break;
+                }
+            }
+            return xeque;
+        }
+        public Posicao PosicaoRei(HashSet<Peca> pecasDoJogadorAtual)
+        {
+            Posicao PosRei = null;
+            foreach (Peca p in pecasDoJogadorAtual)
+            {
+                if (p.ToString() == "R")
+                {
+                    PosRei = p.Posicao;
+                    break;
+                }
+            }
+            return PosRei;
+        }
+
         public void ColocarNovaPeca(char coluna, int linha, Peca peca)
         {
             Tabuleiro.ColocarPeca(peca, new PosicaoXadrez(coluna, linha).ToPosicao());
