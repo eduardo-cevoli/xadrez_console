@@ -36,7 +36,7 @@ namespace tabuleiro
         public Peca RetirarPeca(Posicao pos)
         {
             //Verifica se possui alguma peça na posicao.
-            if (!ExistePeca(pos))
+            if (Peca(pos) == null)
             {
                 return null;
             }
