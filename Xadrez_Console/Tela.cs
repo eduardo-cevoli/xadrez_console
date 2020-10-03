@@ -48,7 +48,7 @@ namespace Xadrez_Console
             Console.Write("[");
             foreach (Peca x in conjuto)
             {
-                Console.Write(x + "");
+                Console.Write(x + " ");
             }
             Console.Write("]");
         }
